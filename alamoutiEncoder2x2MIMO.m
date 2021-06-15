@@ -28,19 +28,9 @@ function encodedMatrix = alamoutiEncoder2x2MIMO(inp,timeSlot)
         %Encoding of the channel matrix in order to compute the composite
         %channel matrix
         if(timeSlot == 2)
-%            temp(1,1) = inp(1,1);
-%            temp(1,2) = inp(1,2);
-%           temp(2,1) = conj(inp(1,2));
-%           temp(2,2) = -conj(inp(1,1));
+
             temp(:,1) = conj(inp(:,2));
             temp(:,2) = -conj(inp(:,1));
-        
-%        if(timeSlot == 2)
-%            temp(1,1) = inp(2,1);
-%            temp(1,2) = inp(2,2);
-%            temp(2,1) = conj(inp(2,2));
-%            temp(2,2) = -conj(inp(2,1));
-
 
         end
 
