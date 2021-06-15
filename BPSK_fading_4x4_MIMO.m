@@ -1,10 +1,10 @@
 clc; clear; close all;
 
 M = 2; %Constellation Size
-N = 10 ^ 4; %No. of Bits
+N = 10 ^ 6; %No. of Bits
 data_points = 0 : M - 1; %Symbols of the constellation
 Eb = 1;
-constellation = -sqrt(Eb/4) * exp(-1i*2*pi*data_points/M); %Constellation Points
+constellation = -sqrt(Eb) * exp(-1i*2*pi*data_points/M); %Constellation Points
 
 EbNo_dB = [-5 : 0.5 : 15]; %Array of SNR values used for the simuation (dB)
 ber_array_alamouti_4x4 = zeros(size(EbNo_dB));
@@ -36,7 +36,7 @@ for ii = 1 : length(EbNo)
 
 		h = sqrt(0.5) .* (randn(4,4) + 1i * randn(4,4)); %Channel Fading Matrix for 4x4 links between Tx and Rx, it is expected
 		%that the Channel Fading Matrix remains constant over 4 time instances
-		N0_matrix = sqrt((Eb/EbNo(ii))/2) * randn(4,4) + 1i * (sqrt((Eb/EbNo(ii))/2) * randn(4,4)); %Generating Noise Samples
+		N0_matrix = sqrt(1/0.5) * sqrt(((Eb)/EbNo(ii))) * randn(4,4) + 1i * sqrt(1/0.5) *(sqrt(((Eb)/EbNo(ii))) * randn(4,4)); %Generating Noise Samples
 		%from a Circularly Symmetric Gaussian Distribution of Variance N0/2 along each dimension
 
 		R = h*S + N0_matrix; %Received symbols at each antenna element over 4 time instances
@@ -52,8 +52,9 @@ for ii = 1 : length(EbNo)
 
 		s_hat = pinv(H_comp) * Y; %The estimates of the 4 transmitted symbols is obtained by zero-forming receive combining
         s_decoded = zeros(size(s_hat));
+        
 		%Minimum Euclidean Distance decoding 
-		for k = 1 : length(s_hat)
+        for k = 1 : length(s_hat)
 			EucD = abs(constellation - s_hat(k) * ones(size(constellation)));
 	        %Computing the Euclidean distance of the received symbol from each contellation point
 	        %for the given Modulation Scheme
