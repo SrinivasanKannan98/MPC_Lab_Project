@@ -32,7 +32,7 @@ for ii = 1 : length(EbNo)
 
 		S = [s_1 s_2]; %Encoded Symbol Matrix
 
-		h = sqrt(0.5) .* (randn(2,2) + 1i * randn(2,2)); %Channel Fading Matrix for 4x4 links between Tx and Rx, it is expected
+		h = sqrt(0.5) .* (randn(2,2) + 1i * randn(2,2)); %Channel Fading Matrix for 2x2 links between Tx and Rx, it is expected
 		%that the Channel Fading Matrix remains constant over 2 time instances
 		N0_matrix = sqrt((Eb/EbNo(ii))) * randn(2,2) + 1i * (sqrt((Eb/EbNo(ii))) * randn(2,2)); %Generating Noise Samples
 		%from a Circularly Symmetric Gaussian Distribution of Variance N0/2 along each dimension
@@ -46,16 +46,16 @@ for ii = 1 : length(EbNo)
  		H_comp_2 = alamoutiEncoder2x2MIMO(h,2);
 
  		H_comp = [H_comp_1; H_comp_2]; %Composite Channel Matrix
-        C1 = H_comp(:,1);
-        C1_norm = sqrt(sum(abs(C1) .^ 2,1));
-        C2 = H_comp(:,2);
-        C2_norm = sqrt(sum(abs(C2) .^ 2,1));
+        	C1 = H_comp(:,1);
+        	C1_norm = sqrt(sum(abs(C1) .^ 2,1));
+       		C2 = H_comp(:,2);
+        	C2_norm = sqrt(sum(abs(C2) .^ 2,1));
         
-        s_hat_1 = sum((conj(C1) .* Y),1) ./ C1_norm;
-        s_hat_2 = sum((conj(C2) .* Y),1) ./ C2_norm;
-        s_hat = [s_hat_1; s_hat_2];
+        	s_hat_1 = sum((conj(C1) .* Y),1) ./ C1_norm;
+        	s_hat_2 = sum((conj(C2) .* Y),1) ./ C2_norm;
+        	s_hat = [s_hat_1; s_hat_2];
          
-        s_decoded = zeros(size(s_hat));
+        	s_decoded = zeros(size(s_hat));
 		%Minimum Euclidean Distance decoding 
 		for k = 1 : length(s_hat)
 			EucD = abs(constellation - s_hat(k) * ones(size(constellation)));
